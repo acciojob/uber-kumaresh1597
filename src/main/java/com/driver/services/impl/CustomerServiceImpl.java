@@ -59,6 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
 				tripBooking.setStatus(TripStatus.CONFIRMED);
 				tripBooking.setBill(d.getCab().getPerKmRate() * distanceInKm);
 
+				tripBooking = tripBookingRepository2.save(tripBooking);
+
 				d.getCab().setAvailable(false);
 				d.getTripBookingList().add(tripBooking);
 				driverRepository2.save(d);
@@ -68,7 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
 				return tripBooking;
 			}
 		}
-		throw new Exception("No value present");
+		throw new Exception("No cab available!");
 	}
 
 	@Override
