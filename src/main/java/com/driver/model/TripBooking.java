@@ -7,10 +7,11 @@ import javax.persistence.*;
 public class TripBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int TripBookingId;
+    private int tripBookingId;
     private String fromLocation;
     private String toLocation;
     private int distanceInKm;
+    @Enumerated(EnumType.STRING)
     private TripStatus status;
     private int bill;
 
@@ -23,11 +24,11 @@ public class TripBooking {
     private Customer customer;
 
     public int getTripBookingId() {
-        return TripBookingId;
+        return tripBookingId;
     }
 
     public void setTripBookingId(int tripBookingId) {
-        TripBookingId = tripBookingId;
+        this.tripBookingId = tripBookingId;
     }
 
     public String getFromLocation() {

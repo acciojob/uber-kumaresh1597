@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table
 public class Driver {
-    private int id;
+    private int driverId;
     private String mobile;
     private String password;
 
@@ -17,12 +17,12 @@ public class Driver {
     @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
     private List<TripBooking> tripBookingList = new ArrayList<>();
 
-    public int getId() {
-        return id;
+    public int getDriverId() {
+        return driverId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
 
     public String getMobile() {
