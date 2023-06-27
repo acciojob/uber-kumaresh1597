@@ -82,6 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
 		driver.getCab().setAvailable(true);
 
 		driverRepository2.save(driver);
+		tripBookingRepository2.save(tripBooking);
 	}
 
 	@Override
@@ -94,5 +95,6 @@ public class CustomerServiceImpl implements CustomerService {
 		driver.getCab().setAvailable(true);
 
 		driverRepository2.save(driver);
+		tripBookingRepository2.save(tripBooking);
 	}
 }
