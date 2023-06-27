@@ -28,7 +28,7 @@ public class DriverServiceImpl implements DriverService {
 		driver.setPassword(password);
 
 		Cab cab = new Cab();
-		cab.setPricePerKm(10);
+		cab.setPerKmRate(10);
 		cab.setAvailable(true);
 		cab.setDriver(driver);
 
@@ -40,7 +40,7 @@ public class DriverServiceImpl implements DriverService {
 		// Delete driver without using deleteById function
 		List<Driver> driverList = driverRepository3.findAll();
 		for(Driver d : driverList){
-			if(d.getId() == driverId){
+			if(d.getDriverId() == driverId){
 				driverList.remove(d);
 			}
 		}
