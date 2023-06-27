@@ -68,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 				return tripBooking;
 			}
 		}
-		return null;
+		throw new Exception("No value present");
 	}
 
 	@Override
