@@ -46,31 +46,38 @@ public class CustomerServiceImpl implements CustomerService {
 	public TripBooking bookTrip(int customerId, String fromLocation, String toLocation, int distanceInKm) throws Exception{
 		//Book the driver with lowest driverId who is free (cab available variable is Boolean.TRUE). If no driver is available, throw "No cab available!" exception
 		//Avoid using SQL query
-		Customer customer = customerRepository2.findById(customerId).get();
-        List<Driver> driverList = driverRepository2.findAll();
-		for(Driver d : driverList){
-			if(d.getCab().getAvailable()){
-				TripBooking tripBooking = new TripBooking();
-				tripBooking.setFromLocation(fromLocation);
-				tripBooking.setToLocation(toLocation);
-				tripBooking.setDistanceInKm(distanceInKm);
-				tripBooking.setCustomer(customer);
-				tripBooking.setDriver(d);
-				tripBooking.setStatus(TripStatus.CONFIRMED);
-				tripBooking.setBill(d.getCab().getPerKmRate() * distanceInKm);
-
-				tripBooking = tripBookingRepository2.save(tripBooking);
-
-				d.getCab().setAvailable(false);
-				d.getTripBookingList().add(tripBooking);
-				driverRepository2.save(d);
-
-				customer.getTripBookingList().add(tripBooking);
-				customerRepository2.save(customer);
-				return tripBooking;
+		TripBooking tripBooking=new TripBooking();
+		Driver driver = null;
+		List<Driver> driverList = driverRepository2.findAll();
+		for(Driver driver1 : driverList){
+			if(driver1.getCab().getAvailable() == Boolean.TRUE){
+				if(driver == null || driver.getDriverId() > driver1.getDriverId()){
+					driver = driver1;
+				}
 			}
 		}
-		throw new Exception("No cab available!");
+		if(driver == null){
+			throw new Exception("No cab available!");
+		}
+		Customer customer = customerRepository2.findById(customerId).get();
+		tripBooking.setDistanceInKm(distanceInKm);
+		tripBooking.setFromLocation(fromLocation);
+		tripBooking.setToLocation(toLocation);
+		tripBooking.setCustomer(customer);
+		tripBooking.setDriver(driver);
+		driver.getCab().setAvailable(Boolean.FALSE);
+		tripBooking.setStatus(TripStatus.CONFIRMED);
+
+
+		customer.getTripBookingList().add(tripBooking);
+		driver.getTripBookingList().add(tripBooking);
+
+		driverRepository2.save(driver);
+		customerRepository2.save(customer);
+
+		//this is child will be automatically saved.
+		return tripBooking;
+
 	}
 
 	@Override
